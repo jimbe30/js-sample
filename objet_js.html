@@ -52,7 +52,7 @@
 	        Travailleur.prototype = new Personne;	        
 	        var travailleur = new Travailleur("Jimbé", "L'élégant", "Ancienne", "Développeur expérimenté");
 	        
-	        // 6- Déclaration d'une variable dynamique
+	        // 6- Déclaration d'une variable dynamique Jimbé par référence à l'objet travailleur
 	        var declaration = travailleur.nom + "= travailleur ;";
 	        eval(declaration);
 	        
@@ -69,6 +69,7 @@
 		    document.writeln("Travailleur hérité de Personne<br>");
 		    travailleur.print();
 		    
+		    document.writeln("La variable dynamique Jimbé a été créée par la fonction eval() en référence à l'objet travailleur<br>");
 		    document.writeln("Métier du travailleur Jimbé accédé par la variable dynamique de même nom<br>");
 		    document.write(Jimbé.metier);
 	        
