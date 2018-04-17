@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>title here</title>
+</head>
+<body>
+<form method="get" onsubmit="check('myDiv');">
+
+	<select id="mySelect" multiple="multiple" size="1" onmouseover="this.size=10;" onfocus="this.size=10;" onmouseout="this.size=1" onblur="this.size=1">
+		<option value="1">Option 1</option>
+		<option value="2">Option 2</option>
+		<option value="3">Option 3</option>
+	</select>
+	<br><br>
+
+	<div id="myDiv"></div>
+	
+	<input type="button" value="submit" name="action" onclick="new LienSelect().check('myDiv');">
+	
+</form>	
+	<script src="./ext-lib/jquery-3.3.1.js"></script>
+	
+    <script>
+    
+    function LienSelect() {
+    
+		this.check = function check(div) {
+	    	selectId = $.data($("#" + div)[0], "lien").select;
+	    	$("#" + div + " div[id]").each(function() {
+	    		value = this.id;
+	    		$("#" + selectId + " option[value='" + value + "']").attr("selected", true);
+	    	});
+	    }
+			
+		this.lierSelectDiv = function lierSelectDiv (element, div) {
+			
+			elemId = element.id;
+			$.data($("#" + div)[0], "lien", {select: elemId});
+	
+	    	$("#" + elemId + " option:selected").each(	    			
+				function() {					
+					ref = $(this).val();
+					divId = "#" + ref;
+					spanId = "#suppr" + ref;
+					
+					divTexte = "<div id='" + ref + "'>" + $(this).text() + "</div>";
+					spanSuppr = "<span id='suppr" + ref + "' ref='" + ref + "'> x </span>";
+	
+					$(divId).remove();
+					$(divTexte).appendTo($("#" + div));
+					$(spanSuppr).appendTo($(divId));
+					
+					$(spanId).bind("click", function() {
+						sel = $(this).attr("ref");
+						$("#" + sel).remove();
+						$("#" + elemId + " option[value='" + sel + "']").attr("selected", false);
+					});
+				}
+			);
+		}
+    }
+	
+	$(function() {
+	
+		$("#mySelect").bind("change", function(){
+			new LienSelect().lierSelectDiv(this, "myDiv");
+		});
+	
+	});
+			
+
+	
+	</script>
+
+</body>
+</html>

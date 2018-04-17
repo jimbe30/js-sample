@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>title here</title>
+</head>
+<body>
+<form method="get" onsubmit="appBinder.check('myDiv');this.submit();">
+
+	<select id="mySelect" name="mySelect" multiple="multiple" size="10">
+		<option value="1">Option 1</option>
+		<option value="2">Option 2</option>
+		<option value="3">Option 3</option>
+	</select>
+	<br><br>
+
+	<div id="myDiv"></div>
+	
+	<input type="submit" value="OK">
+	
+	
+</form>	
+	<script src="./ext-lib/jquery-3.3.1.js"></script>
+	
+    <script>
+	
+var appBinder = new LienSelect();
+appBinder.lier("mySelect", "myDiv");
+
+
+function LienSelect() {
+
+	this.lier = function(select, element) {
+		$("#" + select).change(function() {
+			maj(this, element);
+			check(element);
+		});
+	}
+	
+	this.check = check;
+
+	function maj(select, element) {
+		var elem = $("#" + element)[0];
+		var selectId = select.id;
+		$.data(elem, "lien", {select: selectId});	
+		$("#" + selectId + " option:selected").each(	    			
+			function() {					
+				var ref = $(this).val();
+				if (ref == null || ref == '' || (ref.trim() != undefined && ref.trim() == '')) {
+					$("#" + element + " div[ref]").detach();
+					setNbLiens(elem, 0);
+					$(elem).hide();
+					return;
+				}
+				var divId = selectId + ref;
+				var supprId = "suppr" + selectId + ref;				
+				var divTexte = "<div style='padding: 1px;' id='" + divId + "' ref='" + ref + "'>&nbsp;" + $(this).text() + "</div>";
+				var spanSuppr = "<span class='close' id='" + supprId + "' ref='" + ref + "'> x </span>";	
+				$("#" + divId).each(function() {
+					$(this).remove();
+					incrementerNbLiens(elem, -1);
+				});
+				$(elem).append($(divTexte)).show();
+				$(spanSuppr).prependTo($("#" + divId));
+				incrementerNbLiens(elem);
+				
+				$("#" + supprId).bind("click", function() {
+					var annulSelection = $(this).attr("ref");
+					selectId = this.id.replace("suppr", "").replace(annulSelection, "");
+					$("#" + selectId + annulSelection).remove();
+					$("#" + selectId + " option[value='" + annulSelection + "']").attr("selected", false);
+					incrementerNbLiens(elem, -1);
+					if (getNbLiens(elem) < 1) {
+						$(elem).hide();
+					}
+				});
+			}
+		);
+	}	
+	function check(element) {
+		try {
+	    	selectId = $.data($("#" + element)[0], "lien").select;
+	    	listeElements = $("#" + element + " div[id]");	    	
+	    	if (listeElements.length > 0) {
+	    		listeElements.each(function() {
+	    			value = $(this).attr("ref");
+	    			$("#" + selectId + " option[value='" + value + "']").attr("selected", true);
+	    		});
+	    	} else {
+	    		$("#" + selectId + " option").attr("selected", false);
+	    		$("#" + selectId + " option[value='']").attr("selected", true);
+	    	}
+		} catch (error) {}	
+    }
+	
+	function getNbLiens(elem) {
+		var nbliens = $.data(elem, "nbliens");
+		if (nbliens) {
+			return nbliens.nombre;
+		}
+		return 0;
+	}
+	
+	function setNbLiens(elem, nb) {
+		$.data(elem, "nbliens", {nombre: nb});
+	}
+	
+	function incrementerNbLiens(elem, nb) {
+		if (!nb) {nb=1;}
+		setNbLiens(elem, nb + getNbLiens(elem));
+	}
+}
+  
+			
+
+	
+	</script>
+
+</body>
+</html>

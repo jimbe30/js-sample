@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Web Project</title>
+        
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        
+        <script type="text/javascript">
+        	
+        	$bnd = new $bnd;
+        	
+        	document.onkeyup = function() {
+    			$bnd.lier();
+    			var text = new String("");
+    			for (var lien in $bnd.liens) {
+    				text += lien + ": " + $bnd.liens[lien] + "<br>";
+    			}
+    			var divLie = document.getElementById($bnd.idDivLie);
+    			divLie.innerHTML = text;
+    		}
+        	
+        	function $bnd() {
+        		
+        		this.attributeNameForBinding = "bnd-name";
+        		this.idDivLie = "content";
+        		
+        		this.liens = new Object();
+        		
+        		this.lier = function() {
+        			elementsALier = this.getElements(this.attributeNameForBinding);
+        			for (var i=0; i<elementsALier.length; i++) {
+        				var elt = elementsALier[i];
+        				var name = elt.getAttribute(this.attributeNameForBinding);
+        				var value = elt.value;
+        				if (!value) {
+        					value = elt.textContent;
+        				}
+        				if (value) {
+        					value = value.trim();
+        				} else {
+        					value = null;
+        				}
+        				this.liens[name] = value;
+        			}
+        		}
+        		
+        		this.getElements = function(attrName, attrValue, rootElement) {
+        			var elements = new Array();
+        			if (!rootElement) {
+        				rootElement = document;
+        			}
+        			var nodes = rootElement.childNodes;
+        			for (var i=0; i<nodes.length; i++) {
+        				var node = nodes.item(i);        				
+        				if (node instanceof Element) {
+        					var tmpElements = this.getElements(attrName, attrValue, node);
+        					tmpElements.forEach(function(elt, i, array) {
+        						elements.push(elt);
+        					});
+        					attr = node.getAttribute(attrName);
+            				if (attr && (!attrValue || attr == attrValue)) {
+            					elements.push(node);
+            				}
+        				}
+        			}
+    				return elements;
+        		}        
+        	}       	
+	        
+        </script>
+        
+    </head>
+    <body>
+        <h1>JS binding</h1>
+		
+		<div>
+			<span class="noir12B">Contenu</span><br>
+			<div id="content"></div>
+		</div>
+		
+		<form action="">
+			Nom: <input type="text" bnd-name="nom" name="nom"/>
+		
+		</form>	
+		
+		
+    </body>
+
+    
+</html>

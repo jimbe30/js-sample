@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>HTML Layers</title>
+</head>
+
+<body style="font-size: 12px;font-family: Verdana,Helvetica,sans-serif">
+
+<script>
+
+function afficherPage(index) {
+	var pages = document.getElementsByClassName("inclusion");
+	for (var i=0; i<pages.length; i++) {
+		pages[i].style.display = "none";
+	}
+	document.getElementById("incl" + index).style.display = "inline-block";
+	var frame = document.getElementById("page" + index).contentWindow;
+	frame.postMessage({titre:"Et voici un message de la page principale disant qu'on inclut la page " + index}, "*");
+}
+	
+
+</script>
+
+<div style="float: left;">
+	Cadre de gauche<BR>
+	<a id="lien" style="color:blue;" onclick="document.getElementById('superpose').style.display='block'">
+		affichage superposé
+	</a><br>
+	<a id="1" style="color:blue;" onclick="afficherPage(this.id);">
+		inclusion page 1
+	</a><br>
+	<a id="2" style="color:blue;" onclick="afficherPage(this.id);">
+		inclusion page 2
+	</a><br><br>
+	La dessous on peut modifier le contenu<br>
+	<div contentEditable="true" style="border:solid 1px lightgrey; margin: 2px"> > tu peux modifier ici < </div>
+</div>
+
+<div id="superpose" style="position:absolute; top: 20px; left: 20px; background:yellow; display: none;">
+	Ceci est le contenu à afficher en superposition 
+	<a onclick="document.getElementById('superpose').style.display = 'none'"> [x] </a>
+</div>
+
+<DIV class="inclusion" id="incl1" style="display: none;">
+	<IFRAME id="page1" src="inclusion.html" height="500px" width="350px"></IFRAME>
+</DIV>
+
+<DIV class="inclusion" id="incl2" style="display: none;">
+	<IFRAME id="page2" src="inclusion.html" height="500px" width="350px"></IFRAME>
+</DIV>
+
+</body>
+
+</html>

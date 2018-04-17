@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>HTML à inclure</title>
+<script type="text/javascript">
+	window.addEventListener("message", function(event) {
+		var titre = event.data.titre;
+		document.getElementById("titre").innerHTML = titre;
+	}, false);
+
+</script>
+
+</head>
+<body style="font-size: 12px;font-family: Verdana,Helvetica,sans-serif">
+	<p><div id="titre" style="font-weight: bold;"></div></p>
+	<p>Ceci est la page destinée à être incluse dans des iframes</p>
+	Et ci-dessous on a un formulaire pour sauvegarder différents états de la page dans différents iframes
+	<form>
+		nom: <input type="text" name="nom"><br>
+		prénom: <input type="text" name="nom"><br>
+		date naissance: <input type="text" name="nom"><br>
+		email: <input type="text" name="nom"><br>
+		<input type="submit" name="choix" value="OK"/>
+	</form>
+</body>
+</html>

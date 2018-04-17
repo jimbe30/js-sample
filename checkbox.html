@@ -1,0 +1,28 @@
+<script type="text/javascript">
+function checker() {
+  var listeChoix = document.getElementsByName('choix');
+  var selectionnes = '';
+  for(i=0; i<listeChoix.length; i++) {
+  	if(listeChoix[i].checked == true) {
+    	selectionnes += listeChoix[i].value + ' ';
+    }
+  }
+  var resultat = selectionnes.trim();
+  document.getElementById('result').value = resultat;   
+
+}
+
+
+</script>
+<html>
+	<form>
+		<input name="choix" type="checkbox" value="valeur1"> valeur1 <br>
+		<input name="choix" type="checkbox" value="valeur2"> valeur2 <br>
+		<input type="button" value="OK" onclick="checker()">
+		<p><input type="text" id='result'></p>
+	</form>
+
+	<p>paragraphe 1</p>
+	<p>paragraphe 2<br>+ saut de ligne</p>
+
+</html>

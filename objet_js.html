@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Web Project</title>
+        
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        
+        <script type="text/javascript">
+     		// 1 - création d'une instance d'objet        
+	        var objet = {
+	        		societe : "CETIP",
+	        		service : "IGestion",
+	        		appli   : "Sample"	        		
+	        };
+     		
+	        // 2- ajout dynamique d'un attibut à une instance d'objet
+	        objet.personne = new Personne("Maitre", "Corbeau", "23/03/1969");
+	        
+	        // 3- déclaration d'un prototype d'objet
+	        function Personne (nom, prenom, dateNaissance) {
+	        	this.nom = nom;
+	        	this.dateNaissance = dateNaissance;
+	        	this.prenom = prenom;
+	        }
+	        
+	        // 4- ajout dynamique d'une méthode au prototype d'objet
+	        function print() {
+        		tab = "&nbsp;&nbsp;&nbsp;";        		
+        		for (attr in this) {
+        			if (attr != "print") {
+        				document.writeln(tab + attr + ":" + this[attr] + "<br>");
+        			}
+        		}
+        		document.writeln("<br>");
+        	}	        
+	      	//   Personne.prototype.print = print; 
+	      	Object.prototype.print = print;
+	        
+	        // 5- héritage (objet parent dans la définition du constructeur + prototype après)
+	        function Salarie(nom, prenom, dateNaissance, fonction) {
+	        	Personne.call(this, nom, prenom, dateNaissance);	        	
+	        	this.fonction = fonction;
+	        }
+	        var salarie = new Salarie("Maitre", "Cagoulard", "Indéterminée", "Expert en braquage de fonds");
+	       
+	        function Travailleur(nom, prenom, dateNaissance, metier) {
+				this.parent = Personne;
+	        	this.parent(nom, prenom, dateNaissance);
+	        	this.metier = metier;
+	        }
+	        Travailleur.prototype = new Personne;	        
+	        var travailleur = new Travailleur("Jimbé", "L'élégant", "Ancienne", "Développeur expérimenté");
+	        
+	        // 6- Déclaration d'une variable dynamique
+	        var declaration = travailleur.nom + "= travailleur ;";
+	        eval(declaration);
+	        
+	        document.writeln("Utilisation des attribut et méthode ajoutés dynamiquement : attribut 'personne' | méthode 'print()'");
+	        document.writeln("Objet<br>");
+		    objet.print();
+		    
+		    document.writeln("Personne de l'objet<br>");
+		    objet.personne.print();
+		    
+		    document.writeln("Salarié hérité de Personne<br>");
+		    salarie.print();
+		    
+		    document.writeln("Travailleur hérité de Personne<br>");
+		    travailleur.print();
+		    
+		    document.writeln("Métier du travailleur Jimbé accédé par la variable dynamique de même nom<br>");
+		    document.write(Jimbé.metier);
+	        
+        </script>
+        
+    </head>
+    <body>
+        <h1>JS</h1>
+		
+		<div id="content"><span class="noir12B">Objet</span><br></div>	
+		
+    </body>
+    
+    <script type="text/javascript">
+    
+	    content = document.getElementById("content");
+	        
+	    for (attribute in objet) {
+	    	content.appendChild(document.createTextNode(attribute + ": " + objet[attribute]));
+	    	content.appendChild(document.createElement("br"));
+	    }    
+    
+    </script>
+    
+</html>
