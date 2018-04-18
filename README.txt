@@ -2,3 +2,4 @@ Ensemble d'utilitaires javascripts répartis dans des fichiers au nom significat
 Dev - Précision sur mon dev en cours
 Master - Précision pour GIT
 Master - Autre complément
+Dev - 2nd complément
