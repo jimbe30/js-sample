@@ -1,2 +1,2 @@
 Ensemble d'utilitaires javascripts répartis dans des fichiers au nom significatif
-Master - Précision pour GIT
+Dev - Précision sur mon dev en cours
